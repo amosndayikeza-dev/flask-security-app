@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Recherche d'articles</h2>
+<form method="get" action="{{ url_for('search') }}">
+  <input name="q" value="{{ q }}" placeholder="mot-clé">
+  <button type="submit">Rechercher</button>
+</form>
+
+{% if q %}
+  <p>Résultats pour :
+    {% if port == 5000 %}
+      <!-- [VULN] injection HTML/JS directe -->
+      <span>{{ q | safe }}</span>
+    {% else %}
+      <!-- [SECURE] échappement automatique -->
+      <span>{{ q }}</span>
+    {% endif %}
+  </p>
+  <ul>
+  {% for a in results %}
+    <li><strong>{{ a['title'] }}</strong> — {{ a['content'] }}</li>
+  {% else %}
+    <li>Aucun résultat.</li>
+  {% endfor %}
+  </ul>
+{% endif %}
+{% endblock %}

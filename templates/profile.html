@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Profil de {{ user.get('username', '?') }}</h2>
+
+{% if port == 5000 %}
+  <!-- [VULN] bio affichée sans échappement → XSS stocké -->
+  <p><strong>Bio :</strong> {{ user.get('bio','') | safe }}</p>
+{% else %}
+  <!-- [SECURE] Jinja2 échappe, + bleach appliqué à l'écriture -->
+  <p><strong>Bio :</strong> {{ user.get('bio','') }}</p>
+{% endif %}
+
+<h3>Modifier</h3>
+<form method="post" action="{{ url_for('profile') }}">
+  <label>Pseudo : <input name="pseudo" value="{{ user.get('username','') }}"></label><br>
+  <label>Bio : <textarea name="bio" rows="3">{{ user.get('bio','') }}</textarea></label><br>
+  <button type="submit">Enregistrer</button>
+</form>
+{% endblock %}

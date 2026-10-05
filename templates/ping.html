@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Outil Ping</h2>
+<form method="post" action="{{ url_for('ping') }}">
+  <label>Adresse IP : <input name="ip" value="{{ ip }}" placeholder="127.0.0.1"></label>
+  <button type="submit">Ping</button>
+</form>
+
+{% if output %}
+  <h3>Résultat</h3>
+  <pre>{{ output }}</pre>
+{% endif %}
+{% endblock %}

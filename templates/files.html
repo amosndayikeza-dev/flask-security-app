@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Téléchargement de fichiers</h2>
+<form method="get" action="{{ url_for('files') }}">
+  <label>Nom du fichier :
+    <input name="name" placeholder="ex: doc.txt">
+  </label>
+  <button type="submit">Télécharger</button>
+</form>
+
+{% if listing is defined and listing %}
+  <h3>Fichiers disponibles</h3>
+  <ul>
+    {% for f in listing %}
+      <li><a href="{{ url_for('files') }}?name={{ f }}">{{ f }}</a></li>
+    {% endfor %}
+  </ul>
+{% endif %}
+{% endblock %}

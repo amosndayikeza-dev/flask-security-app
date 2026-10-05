@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>TP Sécurité — {{ version }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header>
+  <h1>TP Sécurité — Application {{ version }} (port {{ port }})</h1>
+  <nav>
+    <a href="{{ url_for('index') }}">Accueil</a>
+    <a href="{{ url_for('login') }}">Login</a>
+    <a href="{{ url_for('search') }}">Recherche</a>
+    <a href="{{ url_for('profile') }}">Profil</a>
+    <a href="{{ url_for('ping') }}">Ping</a>
+    <a href="{{ url_for('files') }}">Fichiers</a>
+    <a href="{{ url_for('logout') }}">Déconnexion</a>
+  </nav>
+</header>
+<main>
+  {% block content %}{% endblock %}
+</main>
+<footer>
+  <em>Usage pédagogique uniquement — environnement isolé.</em>
+</footer>
+</body>
+</html>

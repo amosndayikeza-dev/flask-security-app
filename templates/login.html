@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Connexion</h2>
+{% if error %}
+  <!-- [VULN] Le template vulnérable peut injecter du HTML brut via error -->
+  <div class="error">{{ error | safe }}</div>
+{% endif %}
+<form method="post" action="{{ url_for('login') }}">
+  <label>Nom d'utilisateur : <input name="username" autocomplete="off"></label><br>
+  <label>Mot de passe : <input name="password" type="password"></label><br>
+  <button type="submit">Se connecter</button>
+</form>
+<p><small>Comptes de test : admin/admin, alice/secret, bob/password123</small></p>
+{% endblock %}

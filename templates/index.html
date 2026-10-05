@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Bienvenue</h2>
+<p>Cette instance est la version <strong>{{ version }}</strong>.</p>
+<ul>
+  <li><code>/login</code> — formulaire d'authentification (SQLi)</li>
+  <li><code>/search?q=...</code> — recherche d'articles (SQLi + XSS réfléchi)</li>
+  <li><code>/user?id=1</code> — profil utilisateur (SQLi)</li>
+  <li><code>/profile</code> — édition du profil (XSS stocké)</li>
+  <li><code>/ping</code> — outil ping (Command Injection)</li>
+  <li><code>/files?name=...</code> — téléchargement (Path Traversal)</li>
+</ul>
+{% endblock %}
