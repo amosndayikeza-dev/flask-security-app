@@ -1,112 +1,112 @@
-# TP Sécurité — Flask Vulnérable vs Sécurisé
+# Security Lab — Vulnerable Flask vs Secure Flask
 
-> ⚠️ **Usage strictement pédagogique** — environnement isolé (localhost).
-> Ne jamais exposer ces applications sur un réseau public.
+> ⚠️ **Strictly for educational use** — isolated environment (localhost).
+> Never expose these applications on a public network.
 
-## 📌 Objectif
+## 📌 Objective
 
-Comparer le comportement de **4 familles d'attaques** sur la **même
-application Flask** exposée en deux versions :
+Compare the behavior of **4 families of attacks** against the **same
+Flask application** exposed in two versions:
 
-| Port | Version    | Protection |
-|------|------------|-----------|
-| 5000 | Vulnérable | ❌ Aucune  |
-| 5001 | Sécurisée  | ✅ Complètes |
+| Port | Version   | Protection |
+|------|-----------|------------|
+| 5000 | Vulnerable | ❌ None     |
+| 5001 | Secure     | ✅ Complete |
 
-## 🗂️ Routes communes
+## 🗂️ Common Routes
 
-| Route               | Vulnérabilité testée | Outil      |
-|---------------------|----------------------|------------|
-| `/login` (POST)     | Injection SQL        | SQLMap     |
-| `/search?q=`        | SQLi + XSS réfléchi  | SQLMap, XSStrike |
-| `/user?id=`         | Injection SQL        | SQLMap     |
-| `/profile` (POST)   | XSS stocké           | XSStrike   |
-| `/ping` (POST)      | Command Injection    | Commix     |
-| `/files?name=`      | Path Traversal       | DotDotPwn  |
+| Route               | Vulnerability tested    | Tool      |
+|---------------------|-------------------------|-----------|
+| `/login` (POST)     | SQL Injection           | SQLMap     |
+| `/search?q=`        | SQLi + Reflected XSS    | SQLMap, XSStrike |
+| `/user?id=`         | SQL Injection           | SQLMap     |
+| `/profile` (POST)   | Stored XSS              | XSStrike   |
+| `/ping` (POST)      | Command Injection       | Commix     |
+| `/files?name=`      | Path Traversal          | DotDotPwn  |
 
 ## 🚀 Installation
 
-### Sur Arch Linux (Étudiant A)
+### On Arch Linux (Student A)
 
 ```bash
-# Dépendances système (outils pentest)
+# System dependencies (pentest tools)
 sudo pacman -S sqlmap python python-pip base-devel
-yay -S xsstrike commix dotdotpwn   # ou via git fallback
+yay -S xsstrike commix dotdotpwn   # or via git fallback
 
-# Environnement projet
+# Project environment
 cd flask_tp_securite
 chmod +x setup.sh run.sh
 ./setup.sh
 ./run.sh
 ```
 
-### Sur Windows 11 (Étudiant B)
+### On Windows 11 (Student B)
 
 ```powershell
-# Prérequis : Python 3.10+ installé via winget
+# Prerequisite: Python 3.10+ installed via winget
 winget install Python.Python.3.12
 
-# Outils pentest : WSL2 fortement conseillé
+# Pentest tools: WSL2 strongly recommended
 wsl --install -d Ubuntu
 
-# Environnement projet (PowerShell)
+# Project environment (PowerShell)
 cd flask_tp_securite
-Set-ExecutionPolicy -Scope CurrentUser RemoteSigned   # une seule fois
+Set-ExecutionPolicy -Scope CurrentUser RemoteSigned   # once only
 .\setup.ps1
 .\run.ps1
 ```
 
-L'application est accessible sur :
-- http://127.0.0.1:5000 → VULNÉRABLE
-- http://127.0.0.1:5001 → SÉCURISÉE
+The application is available at:
+- http://127.0.0.1:5000 → VULNERABLE
+- http://127.0.0.1:5001 → SECURE
 
-## 🧪 Scénarios d'attaque
+## 🧪 Attack Scenarios
 
-### 1. XSS avec XSStrike
+### 1. XSS with XSStrike
 
 ```bash
-# Port 5000 (VULNÉRABLE)
+# Port 5000 (VULNERABLE)
 xsstrike -u "http://localhost:5000/search?q=test"
-# → Payload réfléchi trouvé → exploit réussi
+# → Reflected payload found → exploit successful
 
-# Port 5001 (SÉCURISÉE)
+# Port 5001 (SECURE)
 xsstrike -u "http://localhost:5001/search?q=test"
-# → "0 payload found" — échappement Jinja2 + CSP + bleach
+# → "0 payload found" — Jinja2 escaping + CSP + bleach
 ```
 
-### 2. SQL Injection avec SQLMap
+### 2. SQL Injection with SQLMap
 
 ```bash
-# Port 5000 (VULNÉRABLE)
+# Port 5000 (VULNERABLE)
 sqlmap -u "http://localhost:5000/user?id=1" --batch --dbs
 # → "Parameter: id (GET) — boolean-based blind"
-# → Dump possible de toute la base
+# → Full database dump possible
 
-# Port 5001 (SÉCURISÉE)
+# Port 5001 (SECURE)
 sqlmap -u "http://localhost:5001/user?id=1" --batch --level=5 --risk=3
-# → "not injectable" — requêtes préparées + int() strict
+# → "not injectable" — prepared statements + strict int()
 ```
 
-### 3. Command Injection avec Commix
+### 3. Command Injection with Commix
 
 ```bash
 # Port 5000
 commix --url="http://localhost:5000/ping" --data="ip=127.0.0.1" --batch
-# → Shell obtenu (os_shell)
+# → Shell obtained (os_shell)
 
 # Port 5001
 commix --url="http://localhost:5001/ping" --data="ip=127.0.0.1" --batch
 # → "no injection point detected" — ipaddress + shell=False
 ```
 
-### 4. Path Traversal avec DotDotPwn
+### 4. Path Traversal with DotDotPwn
 
 ```bash
 # Port 5000
 dotdotpwn -m http-url \
   -u "http://localhost:5000/files?name=TRAVERSAL" \
   -k "root:" -d 6 -f pentest/wordlist_traversal.txt
-# → Vulnérabilité trouvée, /etc/passwd lisible
+# → Vulnerability found, /etc/passwd readable
 
 # Port 5001
 dotdotpwn -m http-url \
@@ -115,92 +115,92 @@ dotdotpwn -m http-url \
 # → "0 vulnerability found"
 ```
 
-## 🔬 Analyse — pourquoi ça marche / pourquoi c'est bloqué
+## 🔬 Analysis — why it works / why it's blocked
 
 ### XSS
 
-| Aspect | Vulnérable | Sécurisée |
+| Aspect | Vulnerable | Secure |
 |---|---|---|
-| Rendu du paramètre `q` | `{{ q | safe }}` | `{{ q }}` (échappement auto) |
-| Champ `bio` en base | HTML brut conservé | `bleach.clean()` strip tout |
-| En-têtes | aucun | CSP `default-src 'self'` |
-| Cookies | par défaut | `HttpOnly`, `SameSite=Lax` |
+| Rendering of `q` parameter | `{{ q | safe }}` | `{{ q }}` (auto-escape) |
+| `bio` field in database | Raw HTML preserved | `bleach.clean()` strips everything |
+| Headers | none | CSP `default-src 'self'` |
+| Cookies | default | `HttpOnly`, `SameSite=Lax` |
 
-**Heuristique XSStrike :** il envoie des payloads uniques, détecte la
-réflexion **brute** dans le HTML retourné, analyse le **contexte**
-(entre `<script>`, dans un attribut, etc.) et génère des payloads
-adaptés. Dès que `<` est échappé en `&lt;`, la détection échoue.
+**XSStrike heuristic:** it sends unique payloads, detects **raw**
+reflection in the returned HTML, analyzes the **context**
+(inside `<script>`, inside an attribute, etc.) and generates adapted
+payloads. As soon as `<` is escaped to `&lt;`, detection fails.
 
 ### SQL Injection
 
-| Aspect | Vulnérable | Sécurisée |
+| Aspect | Vulnerable | Secure |
 |---|---|---|
-| Requête | f-string concaténée | `?` paramétrée |
-| `id` | concaténé | `int()` + ValueError → 400 |
-| Erreurs | traceback SQLite brut | message générique |
-| Rate limit | non | 5/min via Flask-Limiter |
-| Mots de passe | clair | hash Werkzeug |
+| Query | concatenated f-string | parameterized `?` |
+| `id` | concatenated | `int()` + ValueError → 400 |
+| Errors | raw SQLite traceback | generic message |
+| Rate limit | none | 5/min via Flask-Limiter |
+| Passwords | plaintext | Werkzeug hash |
 
-**Heuristiques SQLMap :**
-- **Boolean-based blind** : compare le contenu de la réponse entre `AND 1=1` et `AND 1=2`.
-- **Time-based blind** : injecte `SLEEP(5)` et mesure la latence.
-- **Error-based** : force une erreur SQL et lit le message.
-Sur la version sécurisée, aucun de ces signaux n'apparaît.
+**SQLMap heuristics:**
+- **Boolean-based blind:** compares response content between `AND 1=1` and `AND 1=2`.
+- **Time-based blind:** injects `SLEEP(5)` and measures latency.
+- **Error-based:** forces an SQL error and reads the message.
+On the secure version, none of these signals appear.
 
 ### Command Injection
 
-| Aspect | Vulnérable | Sécurisée |
+| Aspect | Vulnerable | Secure |
 |---|---|---|
-| Appel | `shell=True` + concat | `subprocess.run([...], shell=False)` |
-| Validation | aucune | `ipaddress.ip_address()` |
+| Call | `shell=True` + concatenation | `subprocess.run([...], shell=False)` |
+| Validation | none | `ipaddress.ip_address()` |
 | Timeout | 10s | 5s |
 
-**Heuristique Commix :** envoie `; id`, `&& id`, `| id`, backticks,
-`$()`, `%0a id`, puis cherche la signature de sortie de commande
-(uid, gid) ou mesure le timing (`sleep`). Avec une liste blanche stricte
-d'IP, aucune injection ne passe.
+**Commix heuristic:** sends `; id`, `&& id`, `| id`, backticks,
+`$()`, `%0a id`, then looks for command output signatures
+(uid, gid) or measures timing (`sleep`). With a strict IP whitelist,
+no injection gets through.
 
 ### Path Traversal
 
-| Aspect | Vulnérable | Sécurisée |
+| Aspect | Vulnerable | Secure |
 |---|---|---|
-| Chemin | `os.path.join(UPLOAD, name)` | `secure_filename()` + `Path.resolve()` |
-| Contrôle | aucun | filtre `..`, `/`, `\`, `%2e` + préfixe |
-| Err | 404 | 403 |
+| Path | `os.path.join(UPLOAD, name)` | `secure_filename()` + `Path.resolve()` |
+| Control | none | filter `..`, `/`, `\`, `%2e` + prefix check |
+| Error | 404 | 403 |
 
-**Heuristique DotDotPwn :** fuzzing par **profondeur** (`-d N`) et par
-**encodage** (URL, double URL, UTF-8 overlong, `%c0%af`).
-La vérification `str(target).startswith(str(base))` après
-`Path.resolve()` **normalise** ces encodages → toutes les tentatives
-retombent dans `UPLOAD_FOLDER` et sont rejetées.
+**DotDotPwn heuristic:** fuzzing by **depth** (`-d N`) and by
+**encoding** (URL, double URL, UTF-8 overlong, `%c0%af`).
+The `str(target).startswith(str(base))` check after
+`Path.resolve()` **normalizes** these encodings → all attempts
+fall back into `UPLOAD_FOLDER` and are rejected.
 
-## 🛠️ Dépannage
+## 🛠️ Troubleshooting
 
-| Problème | Solution |
+| Issue | Solution |
 |---|---|
-| **Port 5000/5001 déjà utilisé** | `ss -tlnp \| grep 500` (Arch) / `netstat -ano \| findstr :500` (Win) puis tuer le PID. Modifier `PORT_VULN`/`PORT_SECURE` dans `config.py`. |
-| **Antivirus Windows bloque les payloads** | Ajouter une exception pour `venv\`, les dépôts clonés et le dossier du projet. Couper temporairement la protection temps réel pendant les tests. |
-| **`Set-ExecutionPolicy` bloque `run.ps1`** | `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` (une seule fois). |
-| **DotDotPwn introuvable sous Windows** | Utiliser **WSL2** obligatoirement (dépendance Perl). Voir `pentest/commands_windows.md`. |
-| **`PermissionError` sur `uploads/`** | Arch : `chmod 755 uploads`. Windows : vérifier que l'utilisateur a les droits en écriture sur le dossier projet. |
-| **Flask ne recharge pas après modif** | Normal : `use_reloader=False`. Relancer `run_both.py` manuellement. |
-| **`sqlite3.OperationalError: no such table`** | Relancer `python database/init_db.py`. |
-| **XSStrike ne se lance pas (Python 3.12)** | Utiliser WSL2 ou un venv Python 3.10 pour XSStrike. |
+| **Port 5000/5001 already in use** | `ss -tlnp \| grep 500` (Arch) / `netstat -ano \| findstr :500` (Win), then kill the PID. Change `PORT_VULN`/`PORT_SECURE` in `config.py`. |
+| **Windows antivirus blocks payloads** | Add an exception for `venv\`, the cloned repos, and the project folder. Temporarily disable real-time protection during tests. |
+| **`Set-ExecutionPolicy` blocks `run.ps1`** | `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` (once only). |
+| **DotDotPwn not found on Windows** | Use **WSL2** (Perl dependency). See `pentest/commands_windows.md`. |
+| **`PermissionError` on `uploads/`** | Arch: `chmod 755 uploads`. Windows: ensure the user has write permission on the project folder. |
+| **Flask does not reload after edits** | Normal: `use_reloader=False`. Restart `run_both.py` manually. |
+| **`sqlite3.OperationalError: no such table`** | Re-run `python database/init_db.py`. |
+| **XSStrike won't launch (Python 3.12)** | Use WSL2 or a Python 3.10 venv for XSStrike. |
 
-## 👥 Répartition du travail (binôme)
+## 👥 Task Distribution (pair)
 
-| Étudiant | OS | Rôle principal |
+| Student | OS | Main role |
 |---|---|---|
-| **A** | Arch Linux | Setup Arch + tests **SQLMap** et **DotDotPwn** ; vérifie que `ping -c 1` fonctionne ; documente `commands_arch.md`. |
-| **B** | Windows 11 (WSL2) | Setup Windows + tests **XSStrike** et **Commix** ; vérifie que `ping -n 1` fonctionne ; documente `commands_windows.md`. |
-| **Commun** | — | Rédaction du README, captures d'écran, analyse comparative 5000 vs 5001, soutenance. |
+| **A** | Arch Linux | Arch setup + **SQLMap** and **DotDotPwn** tests; verifies `ping -c 1` works; documents `commands_arch.md`. |
+| **B** | Windows 11 (WSL2) | Windows setup + **XSStrike** and **Commix** tests; verifies `ping -n 1` works; documents `commands_windows.md`. |
+| **Shared** | — | README writing, screenshots, comparative analysis 5000 vs 5001, presentation. |
 
-Chacun teste l'application sur **son** OS pour prouver la portabilité,
-puis les deux comparent leurs résultats (idéalement avec un git push /
-pull pour partager les captures).
+Each tests the application on **their own** OS to prove portability,
+then both compare results (ideally with a git push / pull to share
+the screenshots).
 
-## 📄 Licence
+## 📄 License
 
-Projet universitaire — usage strictement pédagogique en environnement
-isolé. Toute utilisation sur une cible réelle sans autorisation est
-illégale.
+University project — strictly for educational use in an isolated
+environment. Any use on a real target without authorization is
+illegal.
