@@ -24,13 +24,13 @@
   {% if q %}
     <div class="alert alert-info">
       <strong>Résultats pour :</strong> 
-      {% if port == 5000 %}
-        <span style="font-weight: 600;">{{ q }}</span>
-        <span class="badge vulnerable">Non échappé</span>
-      {% else %}
-        <span>{{ q }}</span>
-        <span class="badge safe">Échappé</span>
-      {% endif %}
+	  {% if port == 5000 %}
+  <span style="font-weight: 600;">{{ q|safe }}</span>
+  <span class="badge vulnerable">Non échappé</span>
+{% else %}
+  <span>{{ q }}</span>
+  <span class="badge safe">Échappé</span>
+{% endif %}
     </div>
 
     {% if results %}
