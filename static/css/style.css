@@ -522,13 +522,8 @@ pre.result,
 /* ---------- Animations ---------- */
 
 @keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-
-  50% {
-    opacity: .35;
-  }
+  0%, 100% { opacity: 1; }
+  50%      { opacity: .35; }
 }
 
 /* ---------- Responsive ---------- */

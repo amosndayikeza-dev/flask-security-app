@@ -1,5 +1,5 @@
 /* ============================================================
-   Ping page — command injection demo
+   CYBERLAB — Ping page (command injection demo)
    ============================================================ */
 
 .ping-form {
@@ -7,12 +7,16 @@
   gap: 8px;
   margin-bottom: 16px;
 }
-.ping-form .input { flex: 1; }
 
-/* Terminal output overrides */
+.ping-form .input {
+  flex: 1;
+}
+
+/* Terminal output — overrides the .input default */
 .ping-output {
-  background: #0C0C0C;
-  color: #1FBF6B;              /* green terminal look */
+  background: #020508 !important;
+  color: #00e676 !important;
+  border: 1px solid #183027 !important;
   padding: 16px;
   border-radius: var(--radius-md);
   font-family: var(--mono);
@@ -22,13 +26,20 @@
   margin-top: 16px;
   white-space: pre-wrap;
   word-break: break-all;
+  box-shadow: inset 0 0 25px rgba(0, 0, 0, .4);
 }
 
 .ping-hint {
   margin-top: 16px;
   padding: 10px 14px;
-  background: var(--warning-bg);
+
+  background: rgba(255, 179, 0, .06);
+  border: 1px solid rgba(255, 179, 0, .20);
+  border-left: 3px solid var(--warning);
   border-radius: var(--radius-md);
-  font-size: 12px;
+
+  font-family: var(--mono);
+  font-size: 11px;
   color: var(--warning);
+  letter-spacing: .03em;
 }

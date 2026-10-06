@@ -1,5 +1,5 @@
 /* ============================================================
-   Articles page — CRUD interface
+   CYBERLAB — Articles page (CRUD interface)
    ============================================================ */
 
 .articles-header {
@@ -25,32 +25,45 @@
 .article-form textarea.input {
   min-height: 160px;
   resize: vertical;
-  font-family: var(--font);
-  line-height: 1.5;
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.6;
 }
 
 .article-detail__title {
   font-size: 24px;
-  font-weight: 600;
+  font-weight: 700;
   margin: 0 0 4px;
+  letter-spacing: -.02em;
+  color: var(--text);
 }
+
 .article-detail__meta {
-  color: var(--text-secondary);
-  font-size: 12px;
-  margin-bottom: 16px;
+  color: var(--text-dim);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  margin-bottom: 18px;
 }
+
 .article-detail__body {
   padding: 20px;
-  background: var(--surface-alt);
+  background: #020508;
+  border: 1px solid #183027;
   border-radius: var(--radius-md);
-  font-size: 14px;
-  line-height: 1.6;
+  font-size: 13px;
+  line-height: 1.7;
   white-space: pre-wrap;
+  color: var(--text);
+  box-shadow: inset 0 0 25px rgba(0, 0, 0, .4);
 }
 
 .article-empty {
   padding: 40px 20px;
   text-align: center;
   color: var(--text-secondary);
-  font-size: 14px;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: .04em;
 }

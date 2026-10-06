@@ -1,5 +1,5 @@
 /* ============================================================
-   Profile edit page — bio form + live preview
+   CYBERLAB — Profile edit page (bio form + preview)
    ============================================================ */
 
 .profile-edit .form {
@@ -9,21 +9,25 @@
 .profile-edit textarea.input {
   min-height: 100px;
   resize: vertical;
-  font-family: var(--font);
+  font-family: var(--mono);
+  font-size: 13px;
 }
 
 .profile-preview {
   margin-top: 24px;
   padding: 20px;
-  background: var(--surface-alt);
+
+  background: rgba(0, 229, 255, .03);
+  border: 1px dashed rgba(0, 229, 255, .25);
   border-radius: var(--radius-md);
-  border: 1px dashed var(--border);
 }
+
 .profile-preview__label {
-  font-size: 12px;
-  font-weight: 600;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
   color: var(--text-secondary);
   text-transform: uppercase;
-  letter-spacing: .04em;
+  letter-spacing: .12em;
   margin: 0 0 8px;
 }

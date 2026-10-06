@@ -1,5 +1,5 @@
 /* ============================================================
-   Files page — path traversal demo
+   CYBERLAB — Files page (path traversal demo)
    ============================================================ */
 
 .files-form {
@@ -7,11 +7,15 @@
   gap: 8px;
   margin-bottom: 16px;
 }
-.files-form .input { flex: 1; }
+
+.files-form .input {
+  flex: 1;
+}
 
 .file-content {
-  background: var(--surface-alt);
-  border: 1px solid var(--border);
+  background: #020508;
+  color: #00e676;
+  border: 1px solid #183027;
   padding: 16px;
   border-radius: var(--radius-md);
   font-family: var(--mono);
@@ -23,13 +27,20 @@
   white-space: pre-wrap;
   word-break: break-all;
   margin-top: 16px;
+  box-shadow: inset 0 0 25px rgba(0, 0, 0, .4);
 }
 
 .files-hint {
   margin-top: 16px;
   padding: 10px 14px;
-  background: var(--warning-bg);
+
+  background: rgba(255, 179, 0, .06);
+  border: 1px solid rgba(255, 179, 0, .20);
+  border-left: 3px solid var(--warning);
   border-radius: var(--radius-md);
-  font-size: 12px;
+
+  font-family: var(--mono);
+  font-size: 11px;
   color: var(--warning);
+  letter-spacing: .03em;
 }
