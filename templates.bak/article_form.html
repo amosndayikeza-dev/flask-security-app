@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Modifier' if article else 'Nouvel' }} article{% endblock %}
+
+{% block head_extra %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/articles.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="card article-form">
+  <h1 class="page-title">
+    {{ 'Modifier un article' if article else 'Nouvel article' }}
+  </h1>
+  <p class="page-subtitle">
+    {{ 'Modifiez les champs ci-dessous.' if article else 'Remplissez les champs pour créer un article.' }}
+  </p>
+
+  <form method="post" class="form" style="max-width:100%;">
+    <label class="field">
+      <span class="field__label">Titre</span>
+      <input class="input" type="text" name="title" required
+             value="{{ article['title'] if article else '' }}">
+    </label>
+
+    <label class="field">
+      <span class="field__label">Contenu</span>
+      {# FIX: the column is 'content', not 'body' #}
+      <textarea class="input" name="content" rows="8"
+                required>{{ article['content'] if article else '' }}</textarea>
+    </label>
+
+    <div class="row">
+      <button type="submit" class="btn btn--primary">
+        {{ 'Enregistrer' if article else 'Créer' }}
+      </button>
+      <a href="{{ url_for('articles_list') }}" class="btn">Annuler</a>
+    </div>
+  </form>
+</section>
+{% endblock %}

@@ -1,5 +1,0 @@
-body { font-family: system-ui, sans-serif; margin: 2rem; max-width: 900px; }
-header nav a { margin-right: 1rem; }
-.error { color: #b00020; background: #ffe6e6; padding: .5rem; }
-pre { background: #f4f4f4; padding: .8rem; overflow-x: auto; }
-footer { margin-top: 3rem; color: #666; font-size: .85rem; }

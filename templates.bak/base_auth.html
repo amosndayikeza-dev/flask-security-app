@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Flask Security App{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar.css') }}">
+  {% block head_extra %}{% endblock %}
+</head>
+<body>
+
+  <!-- Mode banner (full width, above everything) -->
+  <div class="mode-banner mode-banner--{{ 'vuln' if mode == 'vulnerable' else 'sec' }}">
+    Application {{ mode|upper if mode else '' }} — port {{ port if port else '' }}
+  </div>
+
+  <div class="app-layout">
+
+    <!-- ============== SIDEBAR ============== -->
+    <aside class="sidebar">
+
+      <!-- Brand -->
+      <div class="sidebar__brand">
+        <span class="sidebar__brand-logo">🛡️</span>
+        <span class="sidebar__brand-name">Flask Security</span>
+      </div>
+
+      <!-- Main navigation -->
+      <nav class="sidebar__nav">
+        <a class="sidebar__link" href="{{ url_for('dashboard') }}">
+          <span class="sidebar__icon">🏠</span>
+          <span>Accueil</span>
+        </a>
+        <a class="sidebar__link" href="{{ url_for('search') }}">
+          <span class="sidebar__icon">🔍</span>
+          <span>Recherche</span>
+        </a>
+        <a class="sidebar__link" href="{{ url_for('articles_list') }}">
+          <span class="sidebar__icon">📄</span>
+          <span>Articles</span>
+        </a>
+        <a class="sidebar__link" href="{{ url_for('ping') }}">
+          <span class="sidebar__icon">📡</span>
+          <span>Ping</span>
+        </a>
+        <a class="sidebar__link" href="{{ url_for('files') }}">
+          <span class="sidebar__icon">📁</span>
+          <span>Fichiers</span>
+        </a>
+        <a class="sidebar__link" href="{{ url_for('profile') }}">
+          <span class="sidebar__icon">👤</span>
+          <span>Profil</span>
+        </a>
+      </nav>
+
+      <!-- User block at the bottom -->
+      <div class="sidebar__user">
+        <div class="sidebar__user-info">
+          <span class="sidebar__avatar">{{ (session.get('user') or '?')[0]|upper }}</span>
+          <div class="sidebar__user-text">
+            <span class="sidebar__user-name">{{ session.get('user') or 'Invité' }}</span>
+            <span class="sidebar__user-role">Connecté</span>
+          </div>
+        </div>
+        <a class="sidebar__logout" href="{{ url_for('logout') }}" title="Déconnexion">
+          <span>⏻</span>
+        </a>
+      </div>
+
+    </aside>
+
+    <!-- ============== MAIN CONTENT ============== -->
+    <main class="app-main">
+      <div class="container">
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <div class="flash-stack">
+              {% for category, message in messages %}
+                <div class="flash flash--{{ category }}">{{ message }}</div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+      </div>
+
+      <footer class="app-footer">
+        Usage pédagogique uniquement — environnement isolé.
+      </footer>
+    </main>
+
+  </div>
+
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

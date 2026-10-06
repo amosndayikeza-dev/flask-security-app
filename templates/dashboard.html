@@ -1,0 +1,77 @@
+{% extends "base_auth.html" %}
+{% block title %}Tableau de bord{% endblock %}
+
+{% block head_extra %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="card card--elevated">
+  <div class="hero">
+    <h1 class="hero__title">
+      Bienvenue, {{ session.get('user') }} 👋
+    </h1>
+    <p class="hero__subtitle">
+      Instance
+      <span class="hero__mode hero__mode--{{ 'vuln' if mode == 'vulnerable' else 'sec' }}">
+        {{ version }}
+      </span>
+      &nbsp;—&nbsp; port {{ port }}
+    </p>
+  </div>
+
+  <h2 class="section-title">Points d'entrée de l'application</h2>
+  <ul class="endpoint-list">
+    <li>
+      <code>/search?q=…</code>
+      <span class="endpoint-route">Recherche d'articles</span>
+      <span class="badge badge--danger">SQLi + XSS</span>
+    </li>
+    <li>
+      <code>/user?id=1</code>
+      <span class="endpoint-route">Profil utilisateur</span>
+      <span class="badge badge--danger">SQL Injection</span>
+    </li>
+    <li>
+      <code>/profile</code>
+      <span class="endpoint-route">Édition du profil</span>
+      <span class="badge badge--warning">XSS stocké</span>
+    </li>
+    <li>
+      <code>/ping</code>
+      <span class="endpoint-route">Outil ping</span>
+      <span class="badge badge--danger">Command Injection</span>
+    </li>
+    <li>
+      <code>/files?name=…</code>
+      <span class="endpoint-route">Téléchargement de fichiers</span>
+      <span class="badge badge--warning">Path Traversal</span>
+    </li>
+    <li>
+      <code>/articles</code>
+      <span class="endpoint-route">Gestion des articles</span>
+      <span class="badge badge--danger">CRUD</span>
+    </li>
+  </ul>
+</section>
+
+<section class="card">
+  <h2 class="section-title">Comptes de test</h2>
+  <p class="page-subtitle" style="margin-bottom:16px;">
+    Ces identifiants sont disponibles pour tester l'application.
+  </p>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>Password</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><code>admin</code></td><td><code>admin</code></td></tr>
+      <tr><td><code>alice</code></td><td><code>secret</code></td></tr>
+      <tr><td><code>bob</code></td><td><code>password123</code></td></tr>
+    </tbody>
+  </table>
+</section>
+{% endblock %}
