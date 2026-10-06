@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base_public.html" %}
 {% block title %}Connexion{% endblock %}
 
 {% block head_extra %}
@@ -16,12 +16,12 @@
     </div>
 
     {% if error %}
-      <div class="flash flash--danger">{{ error|safe }}</div>
+      <div class="flash flash--danger" style="margin-bottom:16px;">
+        {{ error|safe }}
+      </div>
     {% endif %}
 
     <form method="post" action="{{ url_for('login') }}" class="form" novalidate>
-      <input type="hidden" name="next" value="{{ request.args.get('next', '') }}">
-
       <label class="field">
         <span class="field__label">Nom d'utilisateur</span>
         <input class="input" type="text" id="username" name="username"
@@ -39,17 +39,19 @@
       <button type="submit" class="btn btn--primary">Se connecter</button>
     </form>
 
-    <div class="login-hint">
+    <!-- <div class="login-hint">
       <p class="login-hint__title">Comptes de test disponibles</p>
       <ul>
         <li>admin / admin</li>
         <li>alice / secret</li>
         <li>bob / password123</li>
       </ul>
-    </div>
+    </div> -->
 
   </section>
 
-  <p class="login-footer">Usage pédagogique — environnement isolé.</p>
+  <p class="login-footer">
+    Usage pédagogique — environnement isolé.
+  </p>
 </div>
 {% endblock %}
