@@ -55,18 +55,29 @@
       </nav>
 
       <!-- User block at the bottom -->
-      <div class="sidebar__user">
-        <div class="sidebar__user-info">
-          <span class="sidebar__avatar">{{ (session.get('user') or '?')[0]|upper }}</span>
-          <div class="sidebar__user-text">
-            <span class="sidebar__user-name">{{ session.get('user') or 'Invité' }}</span>
-            <span class="sidebar__user-role">Connecté</span>
-          </div>
-        </div>
-        <a class="sidebar__logout" href="{{ url_for('logout') }}" title="Déconnexion">
-          <span>⏻</span>
-        </a>
-      </div>
+      <div class="sidebar__user-info">
+            <span class="sidebar__avatar">
+                {{ (session.get('user') or '?')[0]|upper }}
+            </span>
+            <div class="sidebar__user-text">
+                <span class="sidebar__user-name">
+                {{ session.get('user') or 'Invité' }}
+                </span>
+                <span class="sidebar__user-role">
+                {{ 'Connecté' if session.get('user') else 'Non connecté' }}
+                </span>
+            </div>
+            </div>
+
+            {% if session.get('user') %}
+            <a class="sidebar__logout" href="{{ url_for('logout') }}" title="Déconnexion">
+                <span>⏻</span>
+            </a>
+            {% else %}
+            <a class="sidebar__logout" href="{{ url_for('login') }}" title="Connexion">
+                <span>→</span>
+            </a>
+            {% endif %}
 
     </aside>
 
