@@ -1,0 +1,56 @@
+/* ============================================================
+   Articles page — CRUD interface
+   ============================================================ */
+
+.articles-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.articles-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.article-row-actions {
+  display: flex;
+  gap: 6px;
+  justify-content: flex-end;
+}
+
+.article-form textarea.input {
+  min-height: 160px;
+  resize: vertical;
+  font-family: var(--font);
+  line-height: 1.5;
+}
+
+.article-detail__title {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0 0 4px;
+}
+.article-detail__meta {
+  color: var(--text-secondary);
+  font-size: 12px;
+  margin-bottom: 16px;
+}
+.article-detail__body {
+  padding: 20px;
+  background: var(--surface-alt);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.article-empty {
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 14px;
+}

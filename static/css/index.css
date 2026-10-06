@@ -1,0 +1,44 @@
+/* ============================================================
+   Home page — hero + endpoint list
+   ============================================================ */
+
+.hero {
+  text-align: left;
+  padding: 8px 0 16px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 24px;
+}
+.hero__title {
+  font-size: 32px;
+  font-weight: 600;
+  margin: 0 0 4px;
+  letter-spacing: -0.02em;
+}
+.hero__subtitle {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin: 0;
+}
+.hero__mode {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 2px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 999px;
+  letter-spacing: .04em;
+}
+.hero__mode--vuln { background: var(--danger-bg);  color: var(--danger); }
+.hero__mode--sec  { background: var(--success-bg); color: var(--success); }
+
+/* Endpoint list: row layout with route + badge */
+.endpoint-list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.endpoint-list .endpoint-route {
+  flex: 1;
+  font-family: var(--font);
+  color: var(--text-secondary);
+}

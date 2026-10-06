@@ -1,0 +1,29 @@
+{% extends "base_auth.html" %}
+{% block title %}{{ article['title'] }}{% endblock %}
+
+{% block head_extra %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/articles.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="card">
+  {# NOTE: |safe is intentional here, so stored XSS actually fires in vulnerable mode #}
+  <h1 class="article-detail__title">{{ article['title']|safe }}</h1>
+  <p class="article-detail__meta">Article #{{ article['id'] }}</p>
+
+  {# FIX: column is 'content', not 'body' #}
+  <div class="article-detail__body">{{ article['content']|safe }}</div>
+
+  <div class="row mt-24">
+    <a href="{{ url_for('articles_list') }}" class="btn">← Retour</a>
+    <a href="{{ url_for('articles_edit', id=article['id']) }}" class="btn btn--primary">
+      Modifier
+    </a>
+    <form method="post"
+          action="{{ url_for('articles_delete', id=article['id']) }}"
+          onsubmit="return confirm('Supprimer cet article ?');">
+      <button type="submit" class="btn btn--danger">Supprimer</button>
+    </form>
+  </div>
+</section>
+{% endblock %}

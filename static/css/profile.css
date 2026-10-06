@@ -1,0 +1,29 @@
+/* ============================================================
+   Profile edit page — bio form + live preview
+   ============================================================ */
+
+.profile-edit .form {
+  max-width: 100%;
+}
+
+.profile-edit textarea.input {
+  min-height: 100px;
+  resize: vertical;
+  font-family: var(--font);
+}
+
+.profile-preview {
+  margin-top: 24px;
+  padding: 20px;
+  background: var(--surface-alt);
+  border-radius: var(--radius-md);
+  border: 1px dashed var(--border);
+}
+.profile-preview__label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  margin: 0 0 8px;
+}

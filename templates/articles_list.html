@@ -1,0 +1,65 @@
+{% extends "base_auth.html" %}
+{% block title %}Articles{% endblock %}
+
+{% block head_extra %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/articles.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="card">
+  <div class="articles-header">
+    <div>
+      <h1 class="page-title">Articles</h1>
+      <p class="page-subtitle">
+        Gestion des articles (CRUD).
+        <span class="badge badge--danger">SQL Injection + XSS stocké</span>
+      </p>
+    </div>
+    <div class="articles-actions">
+      <a href="{{ url_for('articles_new') }}" class="btn btn--primary">+ Nouvel article</a>
+    </div>
+  </div>
+
+  {% if articles %}
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="width:60px;">ID</th>
+          <th>Titre</th>
+          <th style="width:220px; text-align:right;">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for a in articles %}
+          <tr>
+            <td><code>{{ a['id'] }}</code></td>
+            <td><strong>{{ a['title'] }}</strong></td>
+            <td>
+              <div class="article-row-actions">
+                <a href="{{ url_for('articles_detail', id=a['id']) }}"
+                   class="btn btn--sm btn--ghost">Voir</a>
+                <a href="{{ url_for('articles_edit', id=a['id']) }}"
+                   class="btn btn--sm">Modifier</a>
+                <form method="post"
+                      action="{{ url_for('articles_delete', id=a['id']) }}"
+                      onsubmit="return confirm('Supprimer cet article ?');"
+                      style="display:inline;">
+                  <button type="submit" class="btn btn--sm btn--danger">Supprimer</button>
+                </form>
+              </div>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <div class="article-empty">
+      Aucun article pour le moment.
+      <br><br>
+      <a href="{{ url_for('articles_new') }}" class="btn btn--primary">
+        Créer le premier article
+      </a>
+    </div>
+  {% endif %}
+</section>
+{% endblock %}

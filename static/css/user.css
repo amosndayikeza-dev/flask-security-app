@@ -1,0 +1,33 @@
+/* ============================================================
+   User page — lookup by id + profile card
+   ============================================================ */
+
+.user-lookup {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+.user-lookup .input { flex: 1; }
+
+.profile-card {
+  display: grid;
+  gap: 8px;
+  padding: 20px;
+  background: var(--surface-alt);
+  border-radius: var(--radius-md);
+  margin-top: 16px;
+  font-size: 13px;
+}
+.profile-card__row {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 8px;
+  align-items: baseline;
+}
+.profile-card__row strong {
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}

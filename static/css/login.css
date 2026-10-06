@@ -1,0 +1,107 @@
+/* ============================================================
+   Login page — centered authentication card (Fluent Design 2)
+   ============================================================ */
+
+.login-wrapper {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.login-card {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 40px 32px 32px;
+  box-shadow: var(--shadow-16);
+}
+
+/* ---------- Brand block ---------- */
+.login-brand {
+  text-align: center;
+  margin-bottom: 28px;
+}
+.login-brand__logo {
+  font-size: 44px;
+  line-height: 1;
+  margin-bottom: 12px;
+}
+.login-card__title {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0 0 6px;
+  letter-spacing: -0.01em;
+}
+.login-card__subtitle {
+  color: var(--text-secondary);
+  font-size: 13px;
+  margin: 0;
+}
+
+/* ---------- Form ---------- */
+.login-card .form {
+  max-width: 100%;
+  gap: 14px;
+}
+.login-card .btn--primary {
+  width: 100%;
+  padding: 10px 16px;
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+.login-card .flash {
+  font-size: 13px;
+  word-break: break-word;
+  margin-bottom: 16px;
+}
+.login-card .flash pre {
+  margin: 0;
+  font-size: 11px;
+  white-space: pre-wrap;
+}
+
+/* ---------- Test accounts hint ---------- */
+.login-hint {
+  margin-top: 28px;
+  padding: 14px 16px;
+  background: var(--brand-tint);
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  border-left: 3px solid var(--brand);
+}
+.login-hint__title {
+  font-weight: 700;
+  color: var(--brand);
+  margin: 0 0 8px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+.login-hint ul {
+  margin: 0; padding: 0; list-style: none;
+  display: grid; gap: 4px;
+}
+.login-hint li {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-secondary);
+  padding: 2px 0;
+}
+
+/* ---------- Footer ---------- */
+.login-footer {
+  color: var(--text-secondary);
+  font-size: 11px;
+  margin: 0;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 480px) {
+  .login-card { padding: 28px 20px; }
+  .login-card__title { font-size: 20px; }
+}
